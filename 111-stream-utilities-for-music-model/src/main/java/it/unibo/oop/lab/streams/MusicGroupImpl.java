@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
 import java.util.stream.Stream;
+import java.util.stream.Stream.Builder;
 
 /**
  *
@@ -31,27 +32,27 @@ public final class MusicGroupImpl implements MusicGroup {
 
     @Override
     public Stream<String> orderedSongNames() {
-        return null;
+        return this.songs.stream().map(song -> song.getSongName()).sorted(); 
     }
 
     @Override
     public Stream<String> albumNames() {
-        return null;
+        return this.albums.keySet().stream();
     }
 
     @Override
     public Stream<String> albumInYear(final int year) {
-        return null;
+        return this.albums.entrySet().stream().filter(album -> album.getValue().equals(year)).map(album ->album.getKey());
     }
 
     @Override
     public int countSongs(final String albumName) {
-        return -1;
+        return (int)this.songs.stream().filter(song -> song.getAlbumName().equals(albumName)).count();
     }
 
     @Override
     public int countSongsInNoAlbum() {
-        return -1;
+        return (int)this.songs.stream().filter(song -> song.getAlbumName().equals(Optional.empty())).count();
     }
 
     @Override
